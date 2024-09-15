@@ -15,6 +15,7 @@ load_dotenv(dotenv_path=dotenv_path)
 kafka_host = os.getenv("KAFKA_HOST")
 kafka_topic = os.getenv("KAFKA_TOPIC_NAME")
 
+
 producer = KafkaProducer(bootstrap_servers=f"{kafka_host}:9092")
 faker = Faker()
 
@@ -26,9 +27,10 @@ class DataGenerator(object):
         return [
             uuid.uuid4().__str__(),
             faker.random_int(min=1, max=100),
-            faker.random_element(elements=("Chair", "Table", "Desk", "Sofa", "Bed")),
+            faker.random_element(elements=("IPhone", "Samsung", "Vivo", "Xiaomi", "Oppo")),
             faker.safe_color_name(),
-            faker.random_int(min=100, max=150000),
+            faker.random_int(min=1, max=20),
+            faker.random_int(min=1000000, max=20000000),
             faker.unix_time(
                 start_datetime=now - timedelta(minutes=60), end_datetime=now
             ),
@@ -37,11 +39,12 @@ class DataGenerator(object):
 
 while True:
     columns = [
-        "order_id",
-        "customer_id",
-        "furniture",
-        "color",
-        "price",
+        "TransactionId",
+        "UserId",
+        "ItemName",
+        "ItemColor",
+        "NumberOfItemPurchased",
+        "PricePerltem",
         "ts",
     ]
     data_list = DataGenerator.get_data()
